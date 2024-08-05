@@ -1,0 +1,167 @@
+%
+% いじらないって書いてあるところ以外はいじくってOK
+% by うちの
+%
+
+%=====
+% 表紙の設定 (任意)
+%=====
+\newcommand{\TITLE}{たいとる}% タイトル(改行は任意)
+\newcommand{\SUBTITLE}{}                           % サブタイトル(ハイフン自動出力)
+\newcommand{\YEAR}{2021}                           % 年度
+\newcommand{\INSTITUTEa}{理工学研究科}             %　研究科
+\newcommand{\INSTITUTEb}{修士課程}                 % 課程
+\newcommand{\INSTITUTEc}{システム理工学専攻}       % 専攻
+\newcommand{\SUBJECT}{応用数理研究}                % 研究名
+\newcommand{\NUMBER}{MF20013}                      % 学番
+\newcommand{\FAMILYNAME}{内野}                     % 名字
+\newcommand{\FAMILYNAMEruby}{うちの}               % 名字ふりがな
+\newcommand{\FIRSTNAME}{佑基}                      % 名前
+\newcommand{\FIRSTNAMEruby}{ゆうき}                % 名前ふりがな
+\newcommand{\ADVISERFAMILY}{尾崎}                  % 指導教員性
+\newcommand{\ADVISERFIRST}{克久}                   % 指導教員名
+\newcommand{\POSITION}{教授}                       % 指導教員職位
+
+
+%=====
+% パッケージはここに書く (任意)
+%=====
+\documentclass[12pt,a4j]{jsarticle}
+\usepackage[margin = 20truemm]{geometry}
+\usepackage[%                               ハイパーリンク(色なし)
+	dvipdfmx,%
+	bookmarksopenlevel=4,%
+	pdfpagemode=UseThumbs,%
+	pdfborder={0 0 0}]{hyperref}
+\usepackage{pxjahyper}%                     日本語目次
+\usepackage{graphicx}%                      画像入れるなら必須
+\usepackage[dvipdfmx]{color}%               画像入れるなら必須
+\usepackage{amsthm,amsmath,amssymb,ascmac}% なんかいろいろ
+\usepackage{mathtools}%                     数式ツール
+\usepackage{bm}%                            数式の太字用
+\usepackage{url}%                           参考文献のurl用
+\usepackage{here}%                          図表の「H」指定用
+\usepackage{multirow}%                      tablar環境用
+\usepackage{multicol}%                      tablar環境用
+\usepackage{listings}%                      ソースコード用
+\usepackage{plistings}%                    日本語ソースコード用
+\usepackage[shortlabels]{enumitem}%         カスタマイズ可の箇条書き環境
+
+
+%=====
+% pathの設定 (任意)
+%=====
+% 「fig」フォルダ内の画像や「program」フォルダ内のコードを参照する場合は
+%\graphicspath{{./fig/}}%                    画像のpath
+%\lstset{inputpath=program}%                 ソースコードのpath
+% を記述する
+
+
+%=====
+% キャプション番号を章番号に依存させる (任意)
+% 図1, 図2, 図3, ... => 図1.1, 図1.2, 図2.1, ...
+%=====
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\makeatletter
+\@addtoreset{equation}{section}
+\@addtoreset{figure}{section}
+\@addtoreset{table}{section}
+\AtBeginDocument{%
+	\renewcommand*{\thelstlisting}{\arabic{section}.\arabic{lstlisting}}%
+	\@addtoreset{lstlisting}{section}%
+}%
+\makeatother
+
+
+%=====
+% その他の設定 (任意)
+%=====
+\pagestyle{plain}%                               ページ番号
+\allowdisplaybreaks%                             数式を自動で改行する
+\setcounter{tocdepth}{3}%                        表示する目次の深さ
+\renewcommand{\lstlistingname}{Program}%         コードのキャプションの変更
+\renewcommand{\lstlistlistingname}{Program目次}% ソースコードの目次の名前
+\everymath{\displaystyle}%                      「$~$」をdisplaystyleにする
+%\renewcommand{\arraystretch}{1.2}%               表の行間を1.2倍にする
+\mathtoolsset{showonlyrefs=true}%                引用した数式にのみ番号を振る
+\let\originalleft\left%                          \leftの余白削減
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\let\originalright\right%                        \rightの余白削減
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+
+
+%=====
+% 表紙の出力 (いじらない)
+%=====
+\newlength{\stwidth}
+\settowidth{\stwidth}{\SUBTITLE}
+\begin{document}
+\thispagestyle{empty}
+\noindent
+\begin{minipage}{\hsize}
+\begin{minipage}[c][.7\textheight]{\textwidth}
+	\centering
+	{\LARGE {\YEAR}年度\quad\ 芝浦工業大学大学院}\\[8ex]
+	{\Huge 修\qquad 士\qquad 論\qquad 文}\\[12ex]
+	{\Large 題目：\TITLE}\\[4pt]%
+	\ifnum\stwidth>0%
+	{\Large --- \SUBTITLE ---}
+	\else%
+	\vspace{1.73zh}
+	\fi
+\end{minipage}
+\begin{minipage}[c][.3\textheight]{\textwidth}
+	\centering
+	{\large
+	\begingroup
+	\renewcommand{\arraystretch}{1.2}
+	\begin{tabular}{lp{.5zw}l}
+		専\hspace{2zw}攻 && \INSTITUTEa（\INSTITUTEb）\ \INSTITUTEc\\
+		学籍番号 && \NUMBER\\
+		ふりがな && \FAMILYNAMEruby\quad \FIRSTNAMEruby\\
+		氏\hspace{2zw}名 && \FAMILYNAME\quad \FIRSTNAME\\
+		指導教員 && \ADVISERFAMILY\quad \ADVISERFIRST~ \POSITION
+	\end{tabular}\endgroup}
+\end{minipage}
+\end{minipage}
+\newpage
+
+
+%=====
+% 目次の出力 (任意)
+%=====
+\pagenumbering{roman}
+\addcontentsline{toc}{section}{目次}
+\tableofcontents%     目次
+\listoffigures%       図目次
+\listoftables%        表目次
+%\lstlistoflistings%   ソースコード目次
+\newpage
+\pagenumbering{arabic}
+
+
+%=====
+% 以降，本文を書く (任意)
+%=====
+
+
+%=====
+% 謝辞 (任意)
+%=====
+\newpage
+\addcontentsline{toc}{section}{謝辞}
+\section*{謝辞}
+先生ありがとう．みんなありがとう．
+
+
+%=====
+% 参考文献 (bibファイルを使用してもよい)
+%=====
+\addcontentsline{toc}{section}{参考文献}
+\begin{thebibliography}{99}
+\bibitem{ref1} 文献1.
+\bibitem{ref2} 文献2.
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,188 @@
+\documentclass[final,dvipdfmx]{beamer}
+
+%=====
+% タイトルの色の設定
+%=====
+\newcommand{\framecolor}{blue}             % 外枠の色
+\newcommand{\namecolor}{black}             % 名前の色
+\newcommand{\namebackcolor}{white}         % 名前の背景の色
+\newcommand{\titlecolor}{white}            % タイトルの色
+\newcommand{\titlebackcolor}{blue!60!cyan} % タイトルの背景の色
+% blue!60!cyanはblue60%cyan40%の意味
+
+%=====
+% タイトルの設定
+%=====
+\newcommand{\JTitle}{日本語タイトル}
+\newcommand{\ETitle}{英語タイトル}
+\newcommand{\Mynumber}{学籍番号}
+\newcommand{\FName}{名字}
+\newcommand{\LName}{名前}
+\newcommand{\AFName}{指導教員名字}
+\newcommand{\ALName}{指導教員名前}
+\newcommand{\APosi}{指導教員職位}
+\newcommand{\Univ}{芝浦工業大学}
+\newcommand{\Depa}{システム理工学部}
+\newcommand{\Subj}{数理科学科}
+
+%package
+\usepackage[%
+orientation=portrait,%
+size=a0,%
+scale=1.4,% <- 文字等の全体的なサイズの指定(1.4以上にする)
+debug]{beamerposter}
+\usepackage[japanese]{babel}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{here}
+\usepackage{amsthm,amsmath,amssymb}
+\usepackage{ascmac}
+\usepackage{mathrsfs}
+\usepackage{cases}
+\usepackage{listings,jlisting}
+\usepackage{tikz}
+\usepackage{framed}
+\usepackage[ruled]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{tcolorbox}
+\usepackage{varwidth} 
+\tcbuselibrary{skins}
+\usepackage{mathtools}
+\algloop{Break}
+\usepackage{multirow}
+\usepackage[shortlabels]{enumitem}
+\usetheme{Uchino}
+
+\begin{document}
+%どうしても入りきらない場合は以下のコマンドを使用してください（なるべく使用しない）．
+%数式前後，図前後などの余白の大きさを変更できます．
+%{}内は余白の幅です．各自調節してください．
+%===========================================
+\allowdisplaybreaks% 数式の改ページに関するコマンド
+%\setlength\abovedisplayskip{2pt}% 数式の上のスペース
+%\setlength\belowdisplayskip{2pt}% 数式の下のスペース
+%\setlength\textfloatsep{2pt}% 本文と図の間のスペース
+%\setlength\floatsep{2truemm}% 図と図の間のスペース
+%\setlength\intextsep{0pt}% 本文中の図のスペース
+%\setlength\abovecaptionskip{0pt}% 図とキャプションの間のスペース
+%======================================
+
+
+% ここはいじらない
+\begin{frame}[t]
+\title[]{\JTitle}
+\subtitle{\textbf{\ETitle}}
+\author[]{\Mynumber \:\: \FName \: \LName ,\quad 指導教員：\AFName \: \ALName \: \APosi}
+\institute{\Univ \: \Depa \: \Subj}
+\TITLE{\framecolor}{\namecolor}{\namebackcolor}{\titlecolor}{\titlebackcolor}
+\begin{columns}[T]
+
+
+%=====
+% 本文左側begin
+\begin{column}{.495\linewidth}
+%=====
+
+% 本文はColorbox環境を使用して書きます．
+% \begin{Colorbox}{色の指定}{タイトル}です．
+% タイトルのフォントサイズは\Large等で変更できます．
+% 基本的には\Largeか\LARGEで良いと思います．
+
+\begin{Colorbox}[red]{\Large タイトル1}
+	色付きのboxです．
+\end{Colorbox}
+
+
+\begin{Colorbox}[blue]{\LARGE タイトル2}
+	好きな色を指定してください．
+\end{Colorbox}
+
+
+\begin{Colorbox}[blue!50!cyan]{\huge タイトル3}
+	個人的にはこの色が好きです．
+\end{Colorbox}
+
+
+% Colorbox内でminipageを使用すれば2段組にもできます．
+\begin{Colorbox}[green!70!black]{\huge タイトル4}
+	\begin{minipage}{.5\hsize}
+		\begin{Colorbox}[blue!50!cyan]{\Large a1}
+			minipageを使って
+		\end{Colorbox}
+	\end{minipage}
+	\begin{minipage}{.5\hsize}
+		\begin{Colorbox}[blue!50!cyan]{\Large a2}
+			こんな感じにしたり
+		\end{Colorbox}
+	\end{minipage}
+\end{Colorbox}
+
+%=====
+% 本文左側end
+\end{column}
+%=====
+
+
+%=====
+% 本文右側begin
+\begin{column}{.495\linewidth}
+%=====
+
+
+\begin{Colorbox}[black]{第5セクション}
+	濃いめの色をおすすめします．
+\end{Colorbox}
+
+
+\begin{Colorbox}[yellow!70!red]{\Large 注目コマンド}
+	\yen \{chumoku\}\{色の指定\}\{注目させたい文章\}で使用可能．\vspace{2cm}
+
+	\yen \{chumoku\}\{red\}\{\$ f(x)=x+3 \$.\}と書くと
+	\chumoku{red}{$f(x)=x+3$.}
+	となる（別行中央寄せ）．\vspace{2cm}
+
+	\yen \{chumokuinline\}\{red\}\{\$ f(x)=x+3 \$.\}と書くと\chumokuinline{red}{$f(x)=x+3$.}となる（インライン）．
+\end{Colorbox}
+
+
+\begin{Colorbox}[green!80!black]{参考文献}
+	\begin{thebibliography}{99}
+		\bibliographystyle{apalike}
+		\beamertemplatetextbibitems
+		\bibitem{IEEE}
+		ANSI/IEEE Std 754--2008: 
+		{\em IEEE Standard for Floating Point Arithmetic}, 
+		IEEE, 
+		(2008).
+		
+		\bibitem{Dekker}
+		T. J. Dekker: 
+		A floating-point technique for extending the available precision, 
+		{\em Numer. Math.}, 
+		\textbf{18} (1971), 224--242.
+		
+		\bibitem{EV}
+		S. M. Rump, T. Ogita, S. Oishi: 
+		Accurate floating-point summation part I:faithful rounding, 
+		{\em SIAM J. Sci. Comput.}, 
+		\textbf{31}:1 (2008), 189--224.
+		
+		\bibitem{AccSign}
+		S. M. Rump, T. Ogita, S. Oishi: 
+		Accurate floating-point summation part II:sign, $K$-fold faithful and rounding to nearest, 
+		{\em SIAM J. Sci. Comput.}, 
+		\textbf{31}:2 (2008), 1269--1302.
+	\end{thebibliography}
+\end{Colorbox}
+
+%=====
+% 本文右側end
+\end{column}
+%=====
+
+\end{columns}
+\end{frame}
+\end{document}

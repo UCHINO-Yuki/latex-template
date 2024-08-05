@@ -1,0 +1,185 @@
+\documentclass[a4paper,twocolumn]{jsarticle}
+%\setlength{\columnseprule}{0.4pt}% 真ん中の線の太さ
+\setlength{\columnsep}{3zw}% 段同士の幅
+
+\usepackage[top=8mm,bottom=20mm,left=20mm,right=20mm]{geometry}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{amsgen}
+\usepackage{amsopn}
+\usepackage{amscd}
+\usepackage{amstext}
+\usepackage{amsxtra}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{here}
+\usepackage{amsmath}
+\usepackage{okumacro}
+\usepackage{ascmac}
+\usepackage{mathrsfs}
+\usepackage{framed}
+\usepackage{cases}
+\usepackage{algpseudocode}
+\usepackage{longtable}
+\usepackage{varwidth}
+\usepackage{mathtools}
+\algloop{Break}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage[shortlabels]{enumitem}
+\usepackage{seqsplit}
+\usepackage{diagbox}
+\usepackage{titlesec}
+
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+	{2ex}{1ex}{\reset@font\Large\bfseries\sffamily}}%
+\renewcommand{\subsection}{\@startsection{subsection}{1}{\z@}%
+	{2ex}{1ex}{\reset@font\normalsize\bfseries\sffamily}}%
+\makeatother
+
+% ページ番号なし
+\pagestyle{empty}
+
+%画像のpath
+%\graphicspath{{./fig/}}
+
+%プログラムのpath
+%\lstset{inputpath=program}
+
+% ハイパーリンクの設定
+\usepackage[dvipdfmx]{hyperref}
+\usepackage{pxjahyper}% 日本語目次
+
+% 定理環境
+\newtheorem{thm}{定理}[section]%\begin{thm} 〜 \end{thm}のように使う．
+\newtheorem{defi}[thm]{定義}%\begin{defi} 〜 \end{defi}のように使う．
+\newtheorem{lem}[thm]{補題}%\begin{lem} 〜 \end{lem}のように使う．
+\newtheorem{prop}[thm]{命題}%\begin{prop} 〜 \end{prop}のように使う．
+\newtheorem{coro}[thm]{系}%\begin{coro} 〜 \end{coro}のように使う．
+\newtheorem{algo}[thm]{アルゴリズム}%\begin{algo} 〜 \end{algo}のように使う．
+\newtheoremstyle{mystyle}
+{}
+{}
+{\normalfont}
+{}
+{\bfseries}
+{}
+{ }
+{}
+\theoremstyle{mystyle}
+
+\renewcommand\proofname{\textbf{証明}}
+
+% 脚注番号の変更
+\renewcommand\thefootnote{*\arabic{footnote}}
+
+% \bigmid（\midの大きいver）
+\newcommand{\bigmid}{\mathrel{}\middle|\mathrel{}}
+
+% 表の行の高さを指定するコマンド
+% 該当行の左端に「\haba{長さ}」を記入する(e.g. \haba{1cm})
+\newcommand{\haba}[1]{\parbox[c][#1][c]{0cm}{}}
+
+% 文中の数式($~~$)をdisplaystyleにする
+\everymath{\displaystyle}
+
+% \left，\rightの無駄な余白をなくす
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+
+% algorithmicの設定
+\makeatletter
+\renewcommand{\ALG@beginalgorithmic}{\tt}
+\makeatother
+\algrenewcommand\alglinenumber[1]{{\scriptsize\texttt{#1:}}}
+
+% 各自で調節してください(デフォルト推奨)
+\allowdisplaybreaks% 数式を改ページするためのコマンド
+%\setlength\abovedisplayskip{10pt}% 数式の上のスペース
+%\setlength\belowdisplayskip{10pt}% 数式の下のスペース
+%\setlength\textfloatsep{5pt}% 本文と図の間のスペース
+%\setlength\floatsep{2truemm}% 図と図の間のスペース
+%\setlength\intextsep{5pt}% 本文中の図のスペース
+%\setlength\abovecaptionskip{0pt}% 図とキャプションの間のスペース
+
+\begin{document}
+
+%=====
+% タイトル
+%=====
+% タイトルの情報を以下に記入してください
+\newcommand{\JTITLE}{日本語タイトル（テキストの幅をオーバーしたら改行）}%
+\newcommand{\ETITLE}{英語タイトル（テキストの幅をオーバーしたら改行）}%
+\newcommand{\Name}{名字 名前}% 名字と名前の間に半角スペース
+\newcommand{\MyNumber}{学籍番号}%
+\newcommand{\Labo}{OOOO研究室}
+\newcommand{\Supervisor}{指導田 教員子}% 名字と名前の間に半角スペース
+\newcommand{\Position}{教授}% 指導教員の職位
+
+% タイトルの出力（無視）
+\title{\textbf{\JTITLE\\{\Large\ETITLE}}}
+\author{\normalsize\Labo\quad \MyNumber\ \Name\quad 指導教員：\Supervisor\ \Position}
+\date{}
+\maketitle
+
+%=====
+% 本文
+%=====
+\section{はじめに}
+
+\subsection{イエーイ}
+IEEE 754~\cite{IEEE}規格では浮動小数点数の基本形式として
+\begin{itemize}
+	\item 2進浮動小数点数
+	\begin{itemize}
+		\item 32ビットの単精度浮動小数点数（binary32）
+		\item 64ビットの倍精度浮動小数点数（binary64）
+		\item 128ビットの四倍精度浮動小数点数（binary128）
+	\end{itemize}
+	\item 10進浮動小数点数
+	\begin{itemize}
+		\item 64ビットの倍精度浮動小数点数（decimal64）
+		\item 128ビットの四倍精度浮動小数点数（decimal128）
+	\end{itemize}
+\end{itemize}
+が定義されている．
+どの基本形式においても浮動小数点数$a$は，符号部（$s$），仮数部（$m$），指数部（$e$），基数部（$b$），精度（$p$）を用いて次のように表される:
+\begin{equation*}
+	a = s \cdot m \cdot b^e ,
+\end{equation*}
+ただし，
+\begin{equation*}
+s = \pm 1 ,\quad
+m = \sum_{i=0}^{p-1} \frac{d_i}{b^i} ,\quad
+d_i \in \{ 0,1,\dots,b-1 \}.
+\end{equation*}
+
+\section{イエーイ}
+\subsection{イエーイ}
+\section{うぇーい}
+\section{やっほー}
+ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ
+
+
+%=====
+% 参考文献
+%=====
+
+\begin{thebibliography}{99}
+% 以下に参考文献を記入する
+
+\bibitem{IEEE}
+ANSI/IEEE Std 754--2008, 
+\textit{IEEE Standard for Floating Point Arithmetic}, 
+IEEE, 2008.
+
+\end{thebibliography}
+\end{document}

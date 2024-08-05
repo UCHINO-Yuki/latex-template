@@ -1,0 +1,46 @@
+%-----
+% 向きの設定
+%-----
+\documentclass[12pt,a4j]{jsarticle} % 縦向き
+%\documentclass[12pt,a4j,landscape]{jsarticle} % 横向き
+
+%-----
+% 編集不要
+%-----
+\usepackage[top=15truemm,bottom=25truemm,left=15truemm,right=15truemm]{geometry}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\begin{document}
+
+%-----
+% スライド（pdf）のファイル名
+%-----
+\newcommand{\Slide}{beamer_utf8.pdf}
+
+%-----
+% ページの設定
+%-----
+\newenvironment{daihon}{\begin{figure}[H]\fbox{\includegraphics[width=\hsize,page=\arabic{page}]{\Slide}}\end{figure}\begin{itemize}\setlength{\itemsep}{7pt}}{\end{itemize}\newpage}
+
+
+%-----
+% 以下本文
+%-----
+\begin{daihon}
+	\item このように
+	\item 台本を書きます．
+\end{daihon}
+
+
+\begin{daihon}
+	\item 2ページ目
+\end{daihon}
+
+
+\begin{daihon}
+	\item 3ページ目
+\end{daihon}
+
+
+\end{document}

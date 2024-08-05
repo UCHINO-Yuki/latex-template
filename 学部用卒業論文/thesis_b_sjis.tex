@@ -1,0 +1,351 @@
+%==========
+% 尾崎研卒論用LaTeXテンプレート
+% 作成者：内野 佑基
+%==========
+
+
+%===== 
+% 表紙の設定（★要編集★） 
+%=====
+\newcommand{\Year}{2022}% 年度
+\newcommand{\Class}{数理科学セミナー（3年） or 総合研究論文（4年）}% 科目名
+\newcommand{\Affi}{OOOO大学 OOOO学部 OOOO学科}% 所属名
+\newcommand{\Title}{日本語タイトル}% タイトル（改行は任意）
+\newcommand{\Etitle}{English Title}% 英タイトル（改行は任意）
+\newcommand{\Num}{BV12345}% 学籍番号
+\newcommand{\Fami}{名字}% 名字
+\newcommand{\Famiruby}{みょうじ}% 名字ふりがな
+\newcommand{\First}{名前}% 名前
+\newcommand{\Firstruby}{なまえ}% 名前ふりがな
+\newcommand{\Advfami}{名字}% 指導教員名字
+\newcommand{\Advfirst}{名前}% 指導教員名前
+\newcommand{\Posi}{教授}% 指導教員の職位
+\newcommand{\Face}{}% 顔写真（OOO.jpg等），無記入だと枠のみ表示
+% 顔写真は4年の卒論提出時に添付する
+
+
+%===== 
+% パッケージ等はここに記述 （★任意で変更★） 
+%=====
+\documentclass[12pt,a4j,dvipdfmx,titlepage]{jsarticle}% 文書クラスの指定
+\usepackage[margin=25truemm]{geometry}% 余白の設定
+\usepackage{graphicx}% 画像を読み込むため
+\usepackage{color}% 色を使用するため
+\usepackage{amsmath,amssymb}% 数式，フォントのため
+\usepackage{bm}% 太字のため
+\usepackage{url}% urlを使用するため
+\usepackage{here}% 画像の位置指定のため
+\usepackage{listings,plistings}% ソースコードのため
+\usepackage{tcolorbox}% 枠等
+\usepackage{varwidth}% 枠等
+\usepackage{mathtools}% 数式のため
+\usepackage{algpseudocode}% アルゴリズムのため
+\usepackage{hyperref}% ハイパーリンクのため
+\usepackage{pxjahyper}% 日本語のハイパーリンクのため
+\usepackage{mathrsfs}% 特殊なフォントのため
+\usepackage{multirow}% 表のセルを結合するため
+\usepackage[shortlabels]{enumitem}% 箇条書き環境の拡張
+\tcbuselibrary{breakable,skins}% boxのためのライブラリ参照
+
+
+%===== 
+% 各設定（★任意で変更★） 
+%=====
+\mathtoolsset{showonlyrefs,showmanualtags}% 引用した数式だけ番号表示
+\allowdisplaybreaks% 文末の数式の改行や改ページを許可する
+\pagestyle{plain}% ページ番号をフッターの中央に表示
+
+
+%===== 
+% 各設定（240行目まで変更禁止）
+%=====
+\newenvironment{proof}[1][]{\noindent\ifstrempty{#1}{\textbf{証明.\ }}{#1}}{\hfill$\square$}
+\newtcolorbox{theorembox}[1][]{
+	enhanced,frame empty,interior empty,
+	coltitle=black,fonttitle=\rmfamily,colbacktitle=white,
+	extras broken={frame empty,interior empty},
+	borderline={0.4mm}{0mm}{black},
+	breakable=true,
+	before skip=3.5mm,
+	attach boxed title to top left={yshift*=-3mm,xshift=3mm},
+	boxed title style={boxrule=0.4mm,colframe=black},
+	varwidth boxed title,
+	left skip = 0cm-\csname @totalleftmargin\endcsname,
+	right skip = 0cm,
+	title=#1,
+}
+\newcounter{NUMBER}
+\numberwithin{NUMBER}{section}
+\newenvironment{Alg}[2][]{
+	\refstepcounter{NUMBER}
+	\newtcolorbox{Algbox}[1][]{
+		breakable=true,
+		enhanced,frame empty,interior empty,
+		coltitle=black,fonttitle=\rmfamily,colbacktitle=white,
+		colback=white,
+		opacityback=0,
+		opacitybacktitle=0,
+		leftrule=0mm,
+		rightrule=0mm,
+		extras broken={frame empty,interior empty},
+		borderline horizontal={0.4mm}{0mm}{black},
+		titlerule style={black,line width=0.4mm},
+		title=##1,
+		before skip=3.5mm,
+		left skip = 0cm-\csname @totalleftmargin\endcsname,
+		right skip = 0cm,
+		left=0pt,
+		right=0pt,
+	}
+	\ifstrempty{#1}%
+		{\begin{Algbox}[\textbf{#2~\theNUMBER}]}
+		{\begin{Algbox}[\textbf{#2~\theNUMBER~:}~{#1}]}
+}{\end{Algbox}}
+\newenvironment{algo}[1][]{\begin{Alg}[#1]{Algorithm}}{\end{Alg}}
+\newenvironment{theorem}[2][]{
+	\refstepcounter{NUMBER}
+	\ifstrempty{#1}
+		{\begin{theorembox}[\textbf{#2~\theNUMBER}]}
+		{\begin{theorembox}[\textbf{#2~\theNUMBER~:}~{#1}]}
+}{\end{theorembox}}
+\newenvironment{defi}[1][]{\begin{theorem}[#1]{定義}}{\end{theorem}}
+\newenvironment{thm}[1][]{\begin{theorem}[#1]{定理}}{\end{theorem}}
+\newenvironment{prop}[1][]{\begin{theorem}[#1]{命題}}{\end{theorem}}
+\newenvironment{lem}[1][]{\begin{theorem}[#1]{補題}}{\end{theorem}}
+\newenvironment{coro}[1][]{\begin{theorem}[#1]{系}}{\end{theorem}}
+\newenvironment{mybox}[1][]{\begin{theorembox}[#1]}{\end{theorembox}}
+\renewcommand{\lstlistingname}{プログラム}
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+\lstset{
+	% 言語の指定
+	language         = c,               % ソースコードの言語
+	% 行番号の設定
+	numbers          = left,            % 左に表示
+	numberstyle      = {\scriptsize},   % フォントスタイル
+	numbersep        = 1zw,             % 間隔
+	stepnumber       = 1,               % 1つおきに番号を表示
+	% フレームの設定
+	frame            = single,          % スタイル
+	frame            = {tb},            % 上下に表示
+	% コメントアウトの設定
+	commentstyle     = {\small\ttfamily \color[rgb]{0,0.5,0}},
+	morecomment      = [l]{//},         % 「//」をコメントアウトとする
+	morecomment      = [s]{/*}{*/},     % 「/* */」をコメントアウトとする
+	morecomment      = [s]{<!--}{-->},  % 「<!-- -->」をコメントアウトとする
+	morecomment      = [l]{\#},         % 「#」をコメントアウトとする
+	morecomment      = [l]{\%},         % 「%」をコメントアウトとする
+	% その他の設定
+	basicstyle       = {\small},
+	showstringspaces = false,
+	breaklines       = true,            % 自動改行
+	identifierstyle  = {\small},
+	keywordstyle     = {\small\bfseries \color{blue}},
+	ndkeywordstyle   = {\small},
+	stringstyle      = {\small\ttfamily},
+	columns          = [l]{fullflexible},
+	xrightmargin     = 0zw,
+	xleftmargin      = 2.5zw,
+	framexleftmargin = 2.5zw,
+	tabsize          = 2,
+	% basewidth       = 0.25zw,         % HTML・CSS・JavaScript用
+}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}%
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}%
+\renewcommand{\thetable}{\thesection.\arabic{table}}%
+\makeatletter
+\@addtoreset{equation}{section}%
+\@addtoreset{figure}{section}%
+\@addtoreset{table}{section}%
+\AtBeginDocument{%
+	\renewcommand*{\thelstlisting}{\arabic{section}.\arabic{lstlisting}}%
+	\@addtoreset{lstlisting}{section}%
+}%
+\makeatother
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+\if&\Face&%
+	\newcommand{\FACE}{%
+		\newlength{\truecm}
+		\setlength{\truecm}{1truecm}
+		\tikz[baseline]{
+			\node[draw, rectangle, 
+			minimum width=3\truecm, 
+			minimum height=4\truecm
+			]{\begin{minipage}{2\truecm}
+					\centering
+					{\normalsize%
+					顔写真\\
+					縦4cm\\
+					$\times$\\
+					横3cm}
+			\end{minipage}};
+		}\vspace{12mm}\par
+	}%
+\else%
+	\newcommand{\FACE}{%
+		\includegraphics[width=3truecm,keepaspectratio]{\Face}
+		\par\vspace{12mm}
+	}
+\fi
+
+\begin{document}% 本文開始
+
+
+%===== 
+% 表紙 （変更禁止） 
+%=====
+\begin{titlepage}
+	\noindent
+	\begin{minipage}[c][\textheight]{\hsize}
+		\centering
+		\Year 年度\\
+		芝浦工業大学\ システム理工学部\ 数理科学科\\[10mm]
+		{\LARGE \Class}
+		\vspace{20mm}\par
+		{\bf\huge\Title\\[2ex]
+		\Large\bf\Etitle}
+		\vspace{20mm}\par
+		\FACE
+		\vspace{8mm}\par
+		{\Large\Num}\\[7mm]
+		\noindent
+		\begin{tabular}{cc}
+			{\normalsize\Famiruby} & {\normalsize\Firstruby}\\
+			{\huge\Fami} & {\huge\First}
+		\end{tabular}\\[10mm]
+		{\Large 指導教員： \Advfami~\Advfirst ~ \Posi}
+	\end{minipage}
+\end{titlepage}
+
+
+%===== 
+% はじめに（★要編集★） 
+%=====
+\pagenumbering{roman}% ページ番号をi,ii,iii,...に変更
+\section*{はじめに}% 章番号なしのセクション
+
+ここに「はじめに」を書きます．
+研究目的，研究動機，研究内容，本論文の概要，章構成の説明等を書いてください．
+最初はとりあえず何か書いて，論文の方向性が定まったら全部書いてください．
+
+
+
+%===== 
+% 目次（★要編集★） 
+%=====
+\newpage% 改ページ
+\setcounter{tocdepth}{3}% 目次にsubsubsectionまで表示する
+\tableofcontents%　章目次
+\listoffigures% 図目次（図がなければコメントアウト）
+\listoftables% 表目次（表がなければコメントアウト）
+\lstlistoflistings% ソースコード目次（ソースコードがなければコメントアウト）
+
+
+%===== 
+% 本文（★要編集★） 
+%=====
+\newpage% 改ページ
+\pagenumbering{arabic}% ページ番号を1,2,3,...に変更
+ここに本文を書きます．
+section，subsectionコマンド等を使用して章分けしてください．
+
+
+%===== 
+% 結論（★要編集★） 
+%=====
+\newpage% 改ページ
+\addcontentsline{toc}{section}{結論}
+\section*{結論}
+
+ここに「おわりに」を書きます．
+論文のポイントをまとめて要約してください．
+
+
+%===== 
+% 謝辞（★要編集★） 
+%=====
+\newpage
+\addcontentsline{toc}{section}{謝辞}
+\section*{謝辞}
+
+ここに謝辞を書きます．
+先生ありがとう．
+先輩ありがとう．
+みんなありがとう．
+
+
+%===== 
+% 参考文献（★要編集★） 
+%=====
+\addcontentsline{toc}{section}{参考文献} 
+\begin{thebibliography}{99}% 参考文献開始
+%
+% 引用する順番で書いてください
+%
+
+% 和書の場合
+% 著者: タイトル, 出版社, (発行年).
+\bibitem{jbook}
+著者: タイトル, 出版社, 発行年.
+
+% 洋書の場合
+% 著者: タイトル(イタリック体), 出版社, 出版地 (出版年).
+\bibitem{ebook}
+G.H. Golub, C.F. Van Loan: 
+\textit{Matrix Computations, 4th ed.}, 
+The Johns Hopkins University Press, Baltimore (2013).
+
+% Webの場合
+% タイトル，url，最終閲覧日.
+\bibitem{web}
+タイトル, \url{URL}, 最終閲覧日.
+
+% 英語論文の場合
+% 著者: タイトル, 掲載誌(イタリック体), 巻:号 (発行年), ページ.
+% 号は省略可．ページはハイフン2つ．
+\bibitem{dekker1971floating}
+T.J. Dekker: 
+A Floating-Point Technique for Extending the Available Precision,
+\textit{Numer. Math.},
+\textbf{18}:3 (1971), pp. 224--242.
+
+%
+% ・カンマ等はすべて半角
+% ・\bibitem{ラベル}のラベルはなんでもよい
+% ・文中で「\cite{ラベル}」のように書けば [1] と引用できる
+% ・「~\cite{}」のように「~」を書いて小スペースを必ず入れる．
+% ・「\cite{ラベル1,ラベル2}」のように書けば [1,2] と出力される
+% ・「\cite[定理~2]{ラベル}」のように書けば [1,定理 2] と出力される
+%
+\end{thebibliography}% 参考文献終わり
+
+
+%===== 
+% 付録（★要編集★） 
+% 長いコード等はここに記載してください．
+%=====
+\appendix% 付録開始 
+\section{1つ目の付録}% 付録がない場合はコメントアウト
+1つ目の付録内容% 付録がない場合はコメントアウト
+
+
+\section{2つ目の付録}% 付録がない場合はコメントアウト
+1つ目の付録内容% 付録がない場合はコメントアウト
+
+
+\end{document}%これは絶対消さないでください

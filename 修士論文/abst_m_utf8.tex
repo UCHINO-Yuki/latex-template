@@ -1,0 +1,135 @@
+\documentclass[a4paper,twocolumn,11pt]{jsarticle}
+% 11ptですが，wordの10.5ptと同じです
+
+%=====
+% 必要な設定
+%=====
+\newcommand{\DATE}{2022年2月7日}       % 変更不要
+\newcommand{\TITLE}{たいとる}          % タイトル
+\newcommand{\SUBTITLE}{}               % サブタイトル
+\newcommand{\INST}{システム理工学専攻} % 専攻
+\newcommand{\SUBJ}{応用数理研究}       % 研究名
+\newcommand{\NUM}{MF20013}             % 学番
+\newcommand{\FAM}{内野}                % 名字
+\newcommand{\FAMruby}{うちの}          % 名字ふりがな
+\newcommand{\FIR}{佑基}                % 名前
+\newcommand{\FIRruby}{ゆうき}          % 名前ふりがな
+\newcommand{\ADVFAM}{尾崎}             % 指導教員性
+\newcommand{\ADVFIR}{克久}             % 指導教員名
+\newcommand{\INSFAM}{}                 % 担当教員性
+\newcommand{\INSFIR}{}                 % 担当教員名
+\setlength{\columnsep}{3zw}            % 段組の幅
+
+% 余白等の調整(入りきらない場合のみ変更)
+%\setlength\abovedisplayskip{10pt}% 数式の上のスペース
+%\setlength\belowdisplayskip{10pt}% 数式の下のスペース
+%\setlength\textfloatsep{5pt}% 本文と図の間のスペース
+%\setlength\floatsep{2truemm}% 図と図の間のスペース
+%\setlength\intextsep{5pt}% 本文中の図のスペース
+%\setlength\abovecaptionskip{0pt}% 図とキャプションの間のスペース
+
+%=====
+% package
+%=====
+\usepackage[top=20mm,bottom=20mm,left=23mm,right=23mm]{geometry}% 余白
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{okumacro} % フリガナを振るためのパッケージ
+\usepackage[dvipdfmx,pdfborder={0 0 0}]{hyperref}% ハイパーリンク
+\usepackage{varwidth} % 必須
+\usepackage{titlesec} % 必須
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{here}
+\usepackage{amsmath,amssymb}
+\usepackage{ascmac}
+\usepackage{cases}
+\usepackage{tikz}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{tcolorbox}
+\usepackage{mathtools}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[shortlabels]{enumitem}
+
+%=====
+% その他の設定
+%=====
+\newtheorem{thm}{定理}[section] % 定理環境
+\newtheorem{defi}[thm]{定義}    % 定義環境
+\newtheorem{lem}[thm]{補題}     % 補題環境
+\newtheorem{prop}[thm]{命題}    % 命題環境
+\newtheorem{coro}[thm]{系}      % 系環境
+\pagestyle{empty}               % ページ番号なし
+\allowdisplaybreaks             % 数式を改ページ
+\let\originalleft\left          % \leftの無駄な余白削除
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\let\originalright\right        % \rightの無駄な余白削除
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+\makeatletter                   % 章タイトルのフォント変更
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+	{2ex}{1ex}{\reset@font\normalsize\bfseries\sffamily}}%
+\renewcommand{\subsection}{\@startsection{subsection}{1}{\z@}%
+	{2ex}{1ex}{\reset@font\normalsize\bfseries\sffamily}}%
+\makeatother
+
+
+%=====
+% タイトルの出力
+%=====
+\begin{document}
+\newlength{\wida}\settowidth{\wida}{\SUBTITLE}
+\newlength{\widb}\settowidth{\widb}{\INSFAM}
+\twocolumn[%
+	\hfill\DATE\\\vspace{-8mm}%
+	\begin{center}
+		{\noindent\textbf{\TITLE}}\\%
+		\ifnum\wida>0%
+		{\noindent--- \SUBTITLE ---}\\
+		\fi
+		\noindent
+		\begin{varwidth}{.5\hsize}
+		\!\!\!\begin{tabular}{l}
+		\INST\\
+		\SUBJ\\
+		\ifnum\widb>0
+		\\
+		\fi
+		\end{tabular}%
+		\end{varwidth}
+		\hfill
+		\begin{varwidth}{.5\hsize}
+		\begin{tabular}{lll}%
+		\NUM & \ruby{\FAM}{\FAMruby} & \ruby{\FIR}{\FIRruby}\\
+		指導教員 & \ADVFAM & \ADVFIR\\
+		\ifnum\widb>0
+		担当教員 & \INSFAM & \INSFIR\\
+		\fi
+		\end{tabular}\!\!\!%
+		\end{varwidth}
+	\end{center}%
+]
+
+
+%=====
+% 以下本文
+%=====
+\section*{Abstract（いらないかも）}
+英語アブスト
+
+
+\section{はじめに}
+
+
+\section{結論}
+
+
+%=====
+% 参考文献
+%=====
+\begin{thebibliography}{99}
+
+\end{thebibliography}
+\end{document}

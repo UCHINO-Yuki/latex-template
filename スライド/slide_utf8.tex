@@ -1,0 +1,260 @@
+\documentclass[dvipdfmx,cjk]{beamer}
+
+%=====
+% 設定（要編集）
+%=====
+\usetheme{Boadilla}% スライドのテーマ（様式）の指定
+\usecolortheme{whale}% カラーテーマの指定
+\newcommand{\happyou}{科目名, 総合研究発表}
+\newcommand{\JTITLE}{日本語タイトル（改行は各自）}%
+\newcommand{\ETITLE}{英語タイトル（改行は各自）}%
+\newcommand{\LastName}{名字}%
+\newcommand{\FirstName}{名前}%
+\newcommand{\MyNumber}{学籍番号}%
+\newcommand{\DATE}{発表日}%
+\newcommand{\Supervisora}{指導教員名字}%
+\newcommand{\Supervisorb}{指導教員名前}%
+\newcommand{\Position}{教授}% 指導教員の職位
+\newcommand{\Labo}{研究室名}%
+\newcommand{\Daigaku}{OO大学}%
+\newcommand{\Gakubu}{OO学部}%
+\newcommand{\Gakka}{OO学科}%
+
+%=====
+% パッケージの読み込み
+%=====
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{amsthm,amsmath,amssymb}
+\usepackage{ascmac}
+\usepackage{cases}
+\usepackage{mathrsfs}
+\usepackage{tikz}
+\usepackage{algpseudocode}
+\usepackage{tcolorbox}
+\usepackage{varwidth}
+\usepackage{mathtools}
+\usepackage{multirow}
+\usepackage{multicol}
+
+%=====
+% その他の設定（編集不要）
+%=====
+% PDFアウトライン（目次）の文字化け修正
+\usepackage{atbegshi}
+\usepackage{pxjahyper}
+\ifnum 42146=\euc"A4A2 \AtBeginShipoutFirst{\special{pdf:tounicode EUC-UCS2}}\else
+\AtBeginShipoutFirst{\special{pdf:tounicode 90ms-RKSJ-UCS2}}\fi
+
+% 右下のアイコンを消す
+\setbeamertemplate{navigation symbols}{} 
+
+% フレームタイトルの設定（center:中央寄せ）
+\setbeamertemplate{frametitle}[default][center]
+
+% スライド下段のフォントの設定
+\setbeamerfont{footline}{size=\scriptsize,series=\bfseries}
+
+% 全体のフォントの設定
+\renewcommand{\kanjifamilydefault}{\gtdefault}
+\renewcommand{\familydefault}{\sfdefault}
+\usefonttheme[onlymath]{serif}
+
+% tikzで使うやつ
+\usetikzlibrary{shapes,snakes}
+\usetikzlibrary{positioning, decorations.pathreplacing, arrows.meta}
+\usetikzlibrary{shadings,shadows,shapes.arrows}
+
+% 矢印コマンドの作成
+\newcommand*{\Rarrow}[2]{%
+	\tikz[
+	baseline=(A.base),
+	font=\footnotesize\sffamily
+	]
+	\node[
+	single arrow,
+	single arrow head extend=4pt,
+	draw=#1,
+	inner sep=2pt,
+	top color=#1,
+	bottom color=#1,
+	] (A) {#2};%
+}
+\newcommand*{\Darrow}[2]{%
+	\tikz[
+	baseline=(A.base),
+	font=\footnotesize\sffamily
+	]
+	\node[
+	single arrow,
+	single arrow head extend=4pt,
+	single arrow tip angle=150,
+	shape border rotate=270,
+	inner sep=2pt,
+	top color=#1,
+	bottom color=#1,
+	] (A) {#2};%
+}
+\newcommand*{\DArrow}[1]{%
+	\begin{center}\hspace{-\csname @totalleftmargin\endcsname}
+		\noindent\tikz[
+		baseline=(A.base),
+		font=\footnotesize\sffamily
+		]
+		\node[
+		single arrow,
+		single arrow head extend=5pt,
+		single arrow tip angle=120,
+		shape border rotate=270,
+		inner sep=2pt,
+		top color=#1,
+		bottom color=#1,
+		] (A) {\large\color{#1}aaa};%
+	\end{center}
+}
+
+% 文字の色を変更するコマンドの作成
+\newcommand{\blue}[1]{{\color{blue!95!black}{#1}}}
+\newcommand{\red}[1]{{\color{red!90!black}{#1}}}
+\newcommand{\green}[1]{{\color[RGB]{10,79,61}{#1}}}
+
+% 定理環境
+\setbeamertemplate{theorems}[numbered]
+\newtheorem{thm}{定理}
+\newtheorem{defi}[thm]{定義}
+\newtheorem{lem}[thm]{補題}
+\newtheorem{prop}[thm]{命題}
+\newtheorem{coro}[thm]{系}
+\newtheorem{algo}[thm]{アルゴリズム}
+\renewcommand\proofname{\textbf{証明}}
+\newtheorem{exam}{例}
+
+% 文章中の数式($~~$)を1行幅に縮小しないための設定（分数など）
+\everymath{\displaystyle}
+
+% 図表のキャプションの変更
+\renewcommand{\figurename}{図}
+\renewcommand{\tablename}{表}
+\setbeamertemplate{caption}[numbered]
+
+% algorithmicの設定
+\makeatletter
+\renewcommand{\ALG@beginalgorithmic}{\tt}
+\makeatother
+\algrenewcommand\alglinenumber[1]{{\scriptsize\texttt{#1:}}}
+
+% 参考文献を下部に表示するコマンドの作成
+\newcommand{\BOOK}[2]{%
+	\renewcommand\thefootnote{}%
+	\renewcommand{\arraystretch}{0.5}
+	\onslide\footnotetext{
+		\vspace{-1.2em}
+		{\tiny\begin{tabular}{p{.025\hsize}p{.88\hsize}}
+			\hspace{-.5em}
+			#1$\!$&$\!$#2
+		\end{tabular}}
+	}%
+	\renewcommand{\arraystretch}{1.2}
+	\renewcommand\thefootnote{*\arabic{footnote}}%
+}
+\renewcommand{\footnoterule}{\vspace{2mm}\hrulefill\vspace{1mm}}
+
+% 総ページ数の制御
+% (\backupbegin~\backupend内のページはカウントしない)
+\newcommand{\backupbegin}{
+	\newcounter{framenumberappendix}
+	\setcounter{framenumberappendix}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+	\addtocounter{framenumberappendix}{-\value{framenumber}}
+	\addtocounter{framenumber}{\value{framenumberappendix}}
+}
+
+% オリジナルのBOX
+\newenvironment{mybox}[2][blue]{%
+\ifstrempty{#2}{%
+\begin{tcolorbox}[colback=#1!3,colframe=#1!50!black,left skip = 0cm-\csname @totalleftmargin\endcsname,right skip = 0cm,boxrule=0.4mm]}{%
+\begin{tcolorbox}[colback=#1!3,colframe=#1!50!black,title={\Large #2},left skip = 0cm-\csname @totalleftmargin\endcsname,right skip = 0cm,boxrule=0.4mm]}}{%
+\end{tcolorbox}}
+
+% \left，\rightの余白の設定
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+
+% タイトルの設定
+\title[\happyou]{\JTITLE}
+\subtitle{\textbf{\ETITLE}}
+\author[\LastName\ \FirstName]{%
+\noindent\begin{tabular}{ll}
+		\MyNumber\quad & \LastName\ \FirstName\\
+		指導教員：\quad & \Supervisora\ \Supervisorb\quad \Position
+\end{tabular}}
+\institute[\Labo]{%
+	\noindent\Daigaku\ \Gakubu\ \Gakka\\
+	\Labo}
+\date{\DATE}
+%=====
+% その他の設定ここまで
+%=====
+\begin{document}
+
+
+% タイトルページ
+\begin{frame}[plain]
+	\titlepage %タイトルページ
+\end{frame}
+
+
+% 目次（\section, \subsectionが自動で反映される）
+\begin{frame}{発表構成}
+	\tableofcontents
+\end{frame}
+
+
+% ここから本文
+\begin{frame}{フレームたいとる}
+	ないよう
+\end{frame}
+
+
+%=====
+% ここから総ページ数にカウントしない
+\backupbegin
+%=====
+
+% 参考文献
+\section*{参考文献}
+\begin{frame}{参考文献}
+\begin{thebibliography}{99}\footnotesize
+\bibliographystyle{apalike}
+\beamertemplatetextbibitems
+
+\bibitem{aaaa}
+参考文献1
+
+\bibitem{bbbb}
+参考文献2
+\end{thebibliography}
+\end{frame}
+
+
+% 補足資料
+\section*{補足資料}
+\begin{frame}{補足資料1}
+ほそく
+\end{frame}
+
+\begin{frame}{補足資料2}
+ほそく
+\end{frame}
+
+%=====
+\backupend
+% ここまで総ページ数にカウントしない
+%=====
+
+\end{document}

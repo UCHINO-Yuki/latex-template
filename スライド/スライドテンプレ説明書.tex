@@ -1,0 +1,669 @@
+\documentclass[dvipdfmx,cjk]{beamer}
+
+%=====
+% 設定（要編集）
+%=====
+\usetheme{Boadilla}% スライドのテーマ（様式）の指定
+\usecolortheme{whale}% カラーテーマの指定
+\newcommand{\happyou}{テンプレ説明書}
+\newcommand{\JTITLE}{スライドテンプレ説明書}%
+\newcommand{\ETITLE}{Instructions for slide template}%
+\newcommand{\LastName}{内野}%
+\newcommand{\FirstName}{佑基}%
+\newcommand{\MyNumber}{}%
+\newcommand{\DATE}{\today}%
+\newcommand{\Supervisora}{}%
+\newcommand{\Supervisorb}{}%
+\newcommand{\Position}{}% 指導教員の職位
+\newcommand{\Labo}{}%
+\newcommand{\Daigaku}{}%
+\newcommand{\Gakubu}{}%
+\newcommand{\Gakka}{}%
+
+%=====
+% パッケージの読み込み
+%=====
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{amsthm,amsmath,amssymb}
+\usepackage{ascmac}
+\usepackage{cases}
+\usepackage{mathrsfs}
+\usepackage{tikz}
+\usepackage{algpseudocode}
+\usepackage{tcolorbox}
+\usepackage{varwidth}
+\usepackage{mathtools}
+\usepackage{multirow}
+\usepackage{multicol}
+
+%=====
+% その他の設定（編集不要）
+%=====
+% PDFアウトラインの文字化け修正
+\usepackage{atbegshi}
+\usepackage{pxjahyper}
+\ifnum 42146=\euc"A4A2 \AtBeginShipoutFirst{\special{pdf:tounicode EUC-UCS2}}\else
+\AtBeginShipoutFirst{\special{pdf:tounicode 90ms-RKSJ-UCS2}}\fi
+
+% 右下のアイコンを消す
+\setbeamertemplate{navigation symbols}{} 
+
+% フレームタイトルの設定（center:中央寄せ）
+\setbeamertemplate{frametitle}[default][center]
+
+% スライド下段のフォントの設定
+\setbeamerfont{footline}{size=\scriptsize,series=\bfseries}
+
+% 全体のフォントの設定
+\renewcommand{\kanjifamilydefault}{\gtdefault}
+\renewcommand{\familydefault}{\sfdefault}
+\usefonttheme[onlymath]{serif}
+
+% tikzで使うやつ
+\usetikzlibrary{shapes,snakes}
+\usetikzlibrary{positioning, decorations.pathreplacing, arrows.meta}
+\usetikzlibrary{shadings,shadows,shapes.arrows}
+
+% 矢印コマンドの作成
+\newcommand*{\Rarrow}[2]{%
+	\tikz[
+	baseline=(A.base),
+	font=\footnotesize\sffamily
+	]
+	\node[
+	single arrow,
+	single arrow head extend=4pt,
+	draw=#1,
+	inner sep=2pt,
+	top color=#1,
+	bottom color=#1,
+	] (A) {#2};%
+}
+\newcommand*{\Darrow}[2]{%
+	\tikz[
+	baseline=(A.base),
+	font=\footnotesize\sffamily
+	]
+	\node[
+	single arrow,
+	single arrow head extend=4pt,
+	single arrow tip angle=150,
+	shape border rotate=270,
+	inner sep=2pt,
+	top color=#1,
+	bottom color=#1,
+	] (A) {#2};%
+}
+\newcommand*{\DArrow}[1]{%
+	\begin{center}\hspace{-\csname @totalleftmargin\endcsname}
+		\noindent\tikz[
+		baseline=(A.base),
+		font=\footnotesize\sffamily
+		]
+		\node[
+		single arrow,
+		single arrow head extend=5pt,
+		single arrow tip angle=120,
+		shape border rotate=270,
+		inner sep=2pt,
+		top color=#1,
+		bottom color=#1,
+		] (A) {\large\color{#1}aaa};%
+	\end{center}
+}
+
+% 文字の色を変更するコマンドの作成
+\newcommand{\blue}[1]{{\color{blue!95!black}{#1}}}
+\newcommand{\red}[1]{{\color{red!90!black}{#1}}}
+\newcommand{\green}[1]{{\color[RGB]{10,79,61}{#1}}}
+
+% 定理環境
+\setbeamertemplate{theorems}[numbered]
+\newtheorem{thm}{定理}
+\newtheorem{defi}[thm]{定義}
+\newtheorem{lem}[thm]{補題}
+\newtheorem{prop}[thm]{命題}
+\newtheorem{coro}[thm]{系}
+\newtheorem{algo}[thm]{アルゴリズム}
+\renewcommand\proofname{\textbf{証明}}
+\newtheorem{exam}{例}
+
+% 文章中の数式($~~$)を1行幅に縮小しないための設定（分数など）
+\everymath{\displaystyle}
+
+% 図表のキャプションの変更
+\renewcommand{\figurename}{図}
+\renewcommand{\tablename}{表}
+\setbeamertemplate{caption}[numbered]
+
+% algorithmicの設定
+\makeatletter
+\renewcommand{\ALG@beginalgorithmic}{\tt}
+\makeatother
+\algrenewcommand\alglinenumber[1]{{\scriptsize\texttt{#1:}}}
+
+% 参考文献を下部に表示するコマンドの作成
+\newcommand{\BOOK}[2]{%
+	\renewcommand\thefootnote{}%
+	\renewcommand{\arraystretch}{0.5}
+	\onslide\footnotetext{
+		\vspace{-1.2em}
+		{\tiny\begin{tabular}{p{.025\hsize}p{.88\hsize}}
+			\hspace{-.5em}
+			#1$\!$&$\!$#2
+		\end{tabular}}
+	}%
+	\renewcommand{\arraystretch}{1.2}
+	\renewcommand\thefootnote{*\arabic{footnote}}%
+}
+\renewcommand{\footnoterule}{\vspace{2mm}\hrulefill\vspace{1mm}}
+
+% 総ページ数の制御
+% (\backupbegin~\backupend内のページはカウントしない)
+\newcommand{\backupbegin}{
+	\newcounter{framenumberappendix}
+	\setcounter{framenumberappendix}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+	\addtocounter{framenumberappendix}{-\value{framenumber}}
+	\addtocounter{framenumber}{\value{framenumberappendix}}
+}
+
+% オリジナルのBOX
+\newenvironment{mybox}[2][blue]{%
+\ifstrempty{#2}{%
+\begin{tcolorbox}[colback=#1!3,colframe=#1!50!black,left skip = 0cm-\csname @totalleftmargin\endcsname,right skip = 0cm,boxrule=0.4mm]}{%
+\begin{tcolorbox}[colback=#1!3,colframe=#1!50!black,title={\Large #2},left skip = 0cm-\csname @totalleftmargin\endcsname,right skip = 0cm,boxrule=0.4mm]}}{%
+\end{tcolorbox}}
+
+% \left，\rightの余白の設定
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+
+% タイトルの設定
+\title[\happyou]{\JTITLE}
+\subtitle{\textbf{\ETITLE}}
+\author[\LastName\ \FirstName]{\LastName\ \FirstName}
+\date{\DATE}
+%=====
+% その他の設定ここまで
+%=====
+\begin{document}
+
+
+% タイトルページ
+\begin{frame}[plain]
+	\titlepage %表紙
+\end{frame}
+
+
+% 目次
+\begin{frame}{目次}
+	\tableofcontents
+\end{frame}
+
+
+\section{スライドのデザイン（テーマ）について}
+\begin{frame}{スライドテーマ}
+\begin{itemize}
+\item スライドのデザインや色は任意に変更可能
+\item 変更する場合は以下を参照してください
+\item スライドのテーマ（様式）の指定
+
+\url{https://deic.uab.cat/~iblanes/beamer_gallery/index_by_theme.html}
+
+\item カラーテーマの指定
+
+\url{https://deic.uab.cat/~iblanes/beamer_gallery/index_by_color.html}
+
+\item 自己流にカスタマイズもできます
+\end{itemize}
+\end{frame}
+
+
+\section{フレームについて}
+\begin{frame}[containsverbatim]{フレームについて}
+\begin{itemize}
+\item 以下のようにしてスライドの各ページを作成する
+\end{itemize}
+
+\begin{mybox}{}
+\begin{verbatim}
+\begin{frame}{フレームタイトル}
+... 1ページ目内容 ...
+\end{frame}
+
+\begin{frame}{フレームタイトル}
+... 2ページ目内容 ...
+\end{frame}
+...
+\end{verbatim}
+\end{mybox}
+
+\begin{itemize}
+\item 読みやすさのため，\red{内容は箇条書きにする}
+\item \verb+\verb||+などの文字列をそのまま出力するコマンドを含む場合は
+
+　\verb|\begin{frame}[containsverbatim]{フレームタイトル}|
+
+としないとエラーになる
+\item スライドの書き方のサンプルがほしい場合は内野まで
+\end{itemize}
+\end{frame}
+
+
+\section{目次について}
+\begin{frame}[containsverbatim]{目次について}
+\begin{itemize}
+\item \verb|\section|, \verb|\subsection|で記述したものは目次に反映される
+\item 以下の様に書くと「1. セクション1」「2. セクション2」が目次に追加される
+\item 目次は「\verb|\tableofcontents|」コマンドで表示できる
+\item \verb|\section*{}|と書くと目次ページには表示されなくなる（PDFの目次には反映される）
+\end{itemize}
+
+\begin{mybox}{}\footnotesize
+\begin{verbatim}
+\section{セクション1}
+\begin{frame}{フレームタイトル}
+... 1ページ目内容 ...
+\end{frame}
+
+\section{セクション2}
+\begin{frame}{フレームタイトル}
+... 3ページ目内容 ...
+\end{frame}
+\end{verbatim}
+\end{mybox}
+\end{frame}
+
+
+\section{アニメーションについて}
+\begin{frame}[containsverbatim]{アニメーション}
+\begin{itemize}
+\item \verb|\pause|を使用するとスライドにアニメーションを追加できる
+\item 例えば
+\begin{mybox}{}
+\begin{verbatim}
+... 内容1 ... \pause
+... 内容2 ... \pause
+... 内容3 ... 
+\end{verbatim}
+\end{mybox}
+のように書くと以下のようになる
+\end{itemize}
+
+\noindent
+\begin{minipage}[b]{.32\hsize}
+\begin{mybox}{1ページ目}
+\begin{verbatim}
+... 内容1 ... 
+
+
+\end{verbatim}
+\end{mybox}
+\end{minipage}
+\begin{minipage}[b]{.32\hsize}
+\begin{mybox}{2ページ目}
+\begin{verbatim}
+... 内容1 ... 
+... 内容2 ... 
+
+\end{verbatim}
+\end{mybox}
+\end{minipage}
+\begin{minipage}[b]{.32\hsize}
+\begin{mybox}{3ページ目}
+\begin{verbatim}
+... 内容1 ...
+... 内容2 ...
+... 内容3 ... 
+\end{verbatim}
+\end{mybox}
+\end{minipage}
+\end{frame}
+
+
+\begin{frame}[containsverbatim]{アニメーション}
+\begin{itemize}
+\item \verb|itemize|にはアニメーションが備わっているので\verb|\pause|を使用する必要はない
+\end{itemize}
+\begin{mybox}{}
+\begin{verbatim}
+\begin{itemize}
+\item<1-3>      1ページ目から3ページ目までに表示
+\item<1->       1ページ目から最後のページまでに表示
+\item<3>        3ページ目のみに表示
+\item<-5>       5ページ目までに表示
+\item<1-2,4,6-> 1,2,4ページ目と6ページ目以降に表示
+\end{itemize}
+\end{verbatim}
+\end{mybox}
+\end{frame}
+
+
+\section{箇条書き補足}
+\begin{frame}[containsverbatim]{箇条書き補足}
+\begin{itemize}
+\item \verb|\item[文字]|とすると箇条書きの黒丸を文字に変更できる
+\item ただし，文字は右揃えなので長い文字は左がはみ出る
+\end{itemize}
+\begin{mybox}{}
+\begin{verbatim}
+\begin{itemize}
+\item                1文目
+\item[$\Rightarrow$] 2文目
+\item[長い文字]       3文目
+\end{itemize}
+\end{verbatim}
+\end{mybox}
+\begin{itemize}
+\item 1文目
+\item[$\Rightarrow$] 2文目
+\item[長い文字] 3文目
+\end{itemize}
+\end{frame}
+
+
+\section{箇条書き内の数式}
+\begin{frame}[containsverbatim]{箇条書き内の数式}
+\begin{itemize}
+\item 箇条書き内に別行立ての数式を書くと右にずれてしまう
+\item そこで，\verb|\hspace{-2em}|で左に少しずらす必要がある
+\item 箇条書きが2重の場合は\verb|\hspace{-4em}|とする
+\end{itemize}
+\begin{mybox}{}\footnotesize
+\begin{verbatim}
+\begin{itemize}
+   \item なんかの文章
+   \[\hspace{-2em}             % 左に2emずらす
+      数式
+   \]
+\end{itemize}
+\end{verbatim}
+\end{mybox}
+
+\begin{itemize}\footnotesize
+\item 1重の箇条書き内の場合：
+\[
+Ax = b\tag{\texttt{hspace}無し}
+\]
+\[\hspace{-2em}
+Ax = b\tag{\texttt{hspace\{-2em\}}}
+\]
+\begin{itemize}\footnotesize
+\item 2重の箇条書き内の場合：
+\[
+Ax = b\tag{\texttt{hspace}無し}
+\]
+\[\hspace{-4em}
+Ax = b\tag{\texttt{hspace\{-4em\}}}
+\]
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\section{定理型環境について}
+\begin{frame}[containsverbatim]{定理型環境}
+
+\begin{itemize}
+\item \verb|thm|定理，\verb|defi|定義，\verb|lem|補題，\verb|prop|命題，\verb|coro|系，\verb|algo|アルゴリズム，\verb|proof|証明，\verb|exam|例の環境を用意している
+\item スライドテーマによりデザインが変わる
+\end{itemize}
+
+\vspace{-2mm}
+\begin{mybox}{}
+\begin{verbatim}
+\begin{thm}[定理タイトル]
+	これは定理環境（タイトルあり）です．
+\end{thm}
+\begin{thm}
+	これは定理環境（タイトル省略）です．
+\end{thm}
+\end{verbatim}
+\end{mybox}
+\vspace{-3mm}
+\begin{thm}[定理タイトル]
+	これは定理環境（タイトルあり）です．
+\end{thm}
+
+\begin{thm}
+		これは定理環境（タイトル省略）です．
+\end{thm}
+\end{frame}
+
+
+\section{オリジナルコマンドについて}
+\begin{frame}[containsverbatim]{オリジナルコマンド（文字色，枠）}
+\begin{itemize}
+\item \verb|\red{文字}|，\verb|\blue{文字}|，\verb|\green{文字}|で文字の色を赤，青，緑に変更可能（普通のred, blue, greenだと色が薄くて見えずらいので少し黒くしている）
+\begin{itemize}
+\item \verb|\red{あああ}| $\to$ \red{あああ}
+\item \verb|\blue{あああ}| $\to$ \blue{あああ}
+\item \verb|\green{あああ}| $\to$ \green{あああ}
+\end{itemize}
+\item \verb|\begin{mybox}[色]{タイトル}～\end{mybox}|で色付きの枠が使用可能
+\end{itemize}
+
+\begin{mybox}[green]{タイトル}
+	\verb|\begin{mybox}[green]{タイトル}|
+\end{mybox}
+
+\begin{mybox}[blue]{}
+	\verb|\begin{mybox}[blue]{}% タイトルを省略するとこうなる|
+\end{mybox}
+\end{frame}
+
+
+\begin{frame}[containsverbatim]{オリジナルコマンド（参考文献）}
+\begin{itemize}
+	\item \verb|\BOOK{参考文献の\cite}{参考文献の情報}|でフレーム下部に参考文献を表示できる（\red{文献の初出時に必ず書くこと}）．
+	\item 同ページに複数ある場合は各文献で\verb|\BOOK|を使用する\\
+	　\verb|\BOOK{参考文献1の\cite}{参考文献1の情報}|\\
+	　\verb|\BOOK{参考文献2の\cite}{参考文献2の情報}|
+	\item \red{文献情報は必ず参考文献のページにも記述する}．
+\end{itemize}
+	
+\vspace{-2mm}
+\begin{mybox}{}\footnotesize
+\begin{verbatim}
+\begin{frame}
+   ...IEEE 754規格~\cite{IEEE}に基づく．
+
+   \BOOK{\cite{IEEE}}{%
+      ANSI/IEEE Std 754-2008, 
+      \textit{IEEE Standard for Floating Point Arithmetic}, 
+      IEEE, 2008.}
+\end{frame}
+\end{verbatim}
+\end{mybox}
+
+...IEEE 754規格~\cite{IEEE}に基づく．
+
+\BOOK{\cite{IEEE}}{%
+	ANSI/IEEE Std 754-2008, 
+	\textit{IEEE Standard for Floating Point Arithmetic}, 
+	IEEE, 2008.}
+\end{frame}
+
+
+\begin{frame}[containsverbatim]{オリジナルコマンド（矢印）}
+	
+	\begin{itemize}
+		\item 色付きの矢印を複数用意している
+		\begin{itemize}
+		\item \verb|\Rarrow{色}{文章}| : 文字を含む右向きの矢印
+		\item \verb|\Darrow{色}{文章}| : 文字を含む下向きの矢印
+		\item \verb|\DArrow{色}      | : 中央寄せされた下向きの矢印
+		\end{itemize}
+	\end{itemize}
+	
+	\begin{mybox}{}\footnotesize
+	\begin{verbatim}
+		\Darrow{cyan!70!blue}{そこで}，    % 右向き
+		\Rarrow{red!50!yellow}{ゆえに}，   % 下向き
+		\Rarrow{red}{\color{red}aaa}，     % 文字を同じ色にした場合
+		\DArrow{red}                       % 下向き中央寄せ
+	\end{verbatim}
+	\end{mybox}
+	
+	\Darrow{cyan!70!blue}{そこで}，
+	\Rarrow{red!50!yellow}{ゆえに}，
+	\Rarrow{red}{\color{red}aaa}
+	\DArrow{red}
+\end{frame}
+
+
+\section{参考文献について}
+\begin{frame}[containsverbatim]{参考文献}
+\begin{itemize}
+\item \verb|\begin{frame}[allowframebreaks]{参考文献}|のように書くと，ページからあふれたときに自動で改ページされる
+
+\item このとき，フレームタイトルは参考文献I, 参考文献IIのようになる
+
+\item 前述の通り，参考文献は引用したページにも書く（\verb|\BOOK|コマンド）
+
+\item 参考文献の書き方はゼミ資料と同じ
+
+\item Beamerのデフォルトの設定では番号が表示されないので，\\
+　\verb|\bibliographystyle{apalike}|\\
+　\verb|\beamertemplatetextbibitems|\\
+を記述して番号が表示されるようにする．（テンプレでは変更済み）
+\end{itemize}
+	
+\begin{thebibliography}{99}\footnotesize
+\bibliographystyle{apalike}
+\beamertemplatetextbibitems
+
+\bibitem{IEEE}
+ANSI/IEEE Std 754-2008, 
+\textit{IEEE Standard for Floating Point Arithmetic}, 
+IEEE, 2008.
+
+\bibitem{rump2008}
+S.M. Rump, T. Ogita, S. Oishi, 
+Accurate Floating-Point Summation Part II: Sign, $K$-Fold Faithful and Rounding to Nearest, 
+\textit{SIAM J. Sci. Comput.}, \textbf{31}:2 (2008), 1269--1302.
+\end{thebibliography}
+
+\end{frame}
+
+
+\section{tikzpictureの応用}
+\begin{frame}[containsverbatim]{tikzpictureの応用1}
+\begin{itemize}
+\item \verb|\begin{tikzpicture}[overlay,remember picture]|を使用することで，スライドの任意の位置に文字や図を上から重ねることができる
+\item 以下は，記号の説明をフレームの右上（north east）に表示する例
+\begin{itemize}
+\item 表示する内容（ここから）～表示する内容（ここまで）を編集すれば使用可能
+\end{itemize}
+\end{itemize}
+
+
+\begin{mybox}{}\scriptsize
+\begin{verbatim}
+\begin{tikzpicture}[overlay,remember picture]
+\draw (current page.north east)               % このページのnorth east
+  node[fill=white,draw=black,below left]{%    % ノードを書く
+    \begin{varwidth}{10cm}\footnotesize       % 可変幅のminipage(最大10cm)
+      \begin{tabular}{rl}                     % 表示する内容（ここから）
+        $\mathbf{u}$         : & 単位相対丸め\\
+        $\mathrm{fl}(\cdot)$ : & 数値計算結果\\
+      \end{tabular}                           % 表示する内容（ここまで）
+    \end{varwidth}
+  };
+\end{tikzpicture}
+\end{verbatim}
+\end{mybox}
+
+\begin{tikzpicture}[overlay,remember picture]
+\draw ([shift={(0mm,0mm)}]current page.north east) node[fill=white,draw=black,below left]{\begin{varwidth}{10cm}\footnotesize
+\begin{tabular}{rl}
+$\mathbf{u}$ : & 単位相対丸め\\
+$\mathrm{fl}(\cdot)$ : & 数値計算結果\\
+\end{tabular}
+\end{varwidth}};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[containsverbatim]{tikzpictureの応用2}
+\begin{itemize}
+\item itemizeに装飾をつけるときにも使用可能
+\end{itemize}
+
+
+\begin{mybox}{}\tiny
+\begin{verbatim}
+% tikz用のマーキングをするコマンド
+\newcommand{\MARK}[1]{\tikz[remember picture]\node[inner sep=0pt](#1){\vphantom{X}};\!}
+  
+\begin{itemize}
+  \item \MARK{a}こんな % aでマーキング
+  \item 感じ
+  \item \MARK{b}です  % bでマーキング
+\end{itemize}
+
+\begin{tikzpicture}[overlay,remember picture,very thick]          % 以下のshiftはx,y方向のシフト
+\draw[decoration={brace},decorate]                                    % 「--」をbrace（{）でデコ
+  ([shift={(-4.5mm,0mm)}]b.south) -- ([shift={(-4.5mm,0mm)}]a.north)  % bの南からaの北まで
+  coordinate[midway,left=3mm](c)                                      % 中点の左3mmをcとする
+  coordinate[midway,left=1.5mm](d);                                   % 中点の左1.5mmをdとする
+\draw[->] (d) -- (c) |- ([shift={(0mm,-5mm)}]b.south) node[right]{これらは...}; % 矢印とその右に文字
+\end{tikzpicture}
+\end{verbatim}
+\end{mybox}
+
+\vspace{-2mm}
+\newcommand{\MARK}[1]{\tikz[remember picture]\node[inner sep=0pt](#1){\vphantom{X}};\!}
+\begin{itemize}
+  \item \MARK{a}こんな % aでマーキング
+  \item 感じ
+  \item \MARK{b}です  % bでマーキング
+\end{itemize}
+
+\begin{tikzpicture}[overlay,remember picture,very thick]
+\draw[%
+  decoration={brace}, % 線の指定
+  decorate,           % 指定した線を引く
+] ([shift={(-4.5mm,0mm)}]b.south) -- ([shift={(-4.5mm,0mm)}]a.north) coordinate[midway,left=3mm](c) coordinate[midway,left=1.5mm](d);
+\draw[->] (d) -- (c) |- ([shift={(0mm,-5mm)}]b.south) node[right] {これらは...};
+\end{tikzpicture}
+\end{frame}
+
+
+\backupbegin
+\section{補足資料について}
+\begin{frame}[containsverbatim]{補足資料}
+\begin{itemize}
+\item \verb|\backupbegin| $\sim$ \verb|\backupend|で挟んだフレームは総ページ数にカウントしない
+\item 質疑応答対策の補足資料などはこの中に書く
+\end{itemize}
+
+\begin{mybox}{}\footnotesize
+\begin{verbatim}
+	\backupbegin          % 総ページ数にカウントしない（ここから）
+	\begin{frame}{補足1}
+	... 内容 ...
+	\end{frame}
+	\begin{frame}{補足1}
+	... 内容 ...
+	\end{frame}
+	\begin{frame}{補足1}
+	... 内容 ...
+	\end{frame}
+	\backupend            % 総ページ数にカウントしない（ここまで）
+\end{verbatim}
+\end{mybox}
+
+\begin{flushright}
+ページ番号はこんな感じになる↓
+\end{flushright}
+\end{frame}
+\backupend
+
+\end{document}

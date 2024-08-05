@@ -1,0 +1,61 @@
+%-----
+% 向きの設定
+%-----
+\documentclass[12pt,a4j]{jsarticle} % 縦向き
+%\documentclass[12pt,a4j,landscape]{jsarticle} % 横向き
+
+%-----
+% 編集不要
+%-----
+\usepackage[top=15truemm,bottom=25truemm,left=15truemm,right=15truemm]{geometry}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\begin{document}
+
+%-----
+% スライド（pdf）のファイル名
+%-----
+\newcommand{\Slide}{beamer.pdf}
+
+%-----
+% ページの設定 (縦向きの場合)
+%-----
+\newenvironment{daihon}{\begin{figure}[H]\fbox{\includegraphics[width=\hsize,page=\arabic{page}]{\Slide}}\end{figure}\begin{itemize}\setlength{\itemsep}{7pt}}{\end{itemize}\newpage}
+
+%-----
+% ページの設定 (横向きの場合)
+%-----
+%\newenvironment{daihon}{%
+%\begin{minipage}[t]{.4\hsize}
+%\vspace{-2em}\begin{figure}[H]\centering\fbox{\includegraphics[width=\hsize,page=\arabic{page}]{\Slide}}\end{figure}\end{minipage}
+%\begin{minipage}[t]{.6\hsize}
+%\begin{itemize}\setlength{\itemsep}{7pt}}{\end{itemize}
+%\end{minipage}\newpage}
+
+%-----
+% 赤シートで消せるようにする場合はコメントアウト解除
+%-----
+%\color{red}
+
+
+%-----
+% 以下本文
+%-----
+\begin{daihon}
+	\item このように
+	\item 台本を書きます．
+\end{daihon}
+
+
+\begin{daihon}
+	\item 2ページ目
+\end{daihon}
+
+
+\begin{daihon}
+	\item 3ページ目
+\end{daihon}
+
+
+\end{document}
