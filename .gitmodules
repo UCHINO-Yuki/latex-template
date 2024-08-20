@@ -1,0 +1,3 @@
+[submodule "plistings"]
+	path = plistings
+	url = https://github.com/h-kitagawa/plistings.git
